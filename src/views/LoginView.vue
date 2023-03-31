@@ -16,9 +16,10 @@
       </div>
       <button type="submit">Login</button>
     </form>
-    <p>
-      <button @click="login">New User</button>
-    </p>
+    <div>
+      <router-link to="/register">New User</router-link>
+      <!-- <button @click="login">New User</button> -->
+    </div>
   </div>
 </template>
 
@@ -54,11 +55,12 @@ export default {
       if (response.status != 200) {
         throw new Error('Login failed');
       }
-      
-      const data = await JSON.stringify(response.data);
-      console.log(data);
-      // Assuming the response data contains a token, save it to the local storage
-      localStorage.setItem('token', data.token);
+
+      const userData = await JSON.stringify(response.data);
+      console.log(userData);
+      // the response data  must contain a token and user _id, save it to the local storage
+      localStorage.setItem('token', JSON.stringify(response.data.token));
+      localStorage.setItem('id', JSON.stringify(response.data.user._id));
     },
 
 
@@ -80,7 +82,6 @@ export default {
         await this.LogIn(userJson);
         this.showError = false;
         this.$router.push("/home");
-
       } catch (e) {
         console.log(`this.login failed: ${e}`);
         this.showError = true;

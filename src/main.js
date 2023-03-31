@@ -7,7 +7,7 @@ const app = createApp(App);
 
 
 //define the base url as a global variable
-let BASE_URL = 'http://localhost:8080/';
+let BASE_URL = 'http://localhost:8080';
 
 //Set the base url for all the axios requests
 axios.defaults.baseURL = BASE_URL;
