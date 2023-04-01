@@ -18,7 +18,6 @@
     </form>
     <div class="login-signup-route">
       <router-link to="/register" class="links">New User? Register Please!</router-link>
-      <!-- <button @click="login">New User</button> -->
     </div>
   </div>
 </template>

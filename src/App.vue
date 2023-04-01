@@ -31,9 +31,6 @@ nav a.router-link-exact-active {
 body{
   margin: 0;
   padding: 0;
-  /* min-width: 100%; */
-  /* justify-self:  */
-
   background-color: rgb(13, 13, 13);
 }
 </style>

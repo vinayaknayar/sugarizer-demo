@@ -1,14 +1,9 @@
 <template>
   <nav>
-    <!-- <router-link to="/">Login</router-link> | -->
     <RouterLink to="/home">Home</RouterLink> |
     <router-link to="/about">About</router-link>
   </nav>
   <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <p> token: {{ token }}</p>
-    <p> id: {{ id }}</p> -->
     <div class="get-elements">
       <button class="get-buttons" @click="getFavActivities()">Home View(Favorite Activities)</button>
       <button class="get-buttons" @click="getAllActivities()">List View(All activities)</button>
@@ -71,11 +66,7 @@ export default {
       allActivities: [],
     };
   },
-  // computed: {
-  //   user() {
-  //     return this.$route.params.user;
-  //   }
-  // }
+  
   async mounted() {
     const userToken = JSON.parse(localStorage.getItem("token"));
     const userID = JSON.parse(localStorage.getItem("id"));
@@ -89,7 +80,7 @@ export default {
     } catch (err) {
       this.showError = true;
       this.errorMessage = err.message;
-      alert(err.message+". Please log in again!");
+      alert(err.message + ". Please log in again!");
       this.$router.push("/");
     }
 
@@ -194,7 +185,6 @@ export default {
 
 .settings-btn {
   background-color: #ffaa00d9;
-  /* color: black; */
 }
 
 .logout-btn {

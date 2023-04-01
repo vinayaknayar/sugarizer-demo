@@ -21,13 +21,11 @@
             <div class="sketch" style="gap:0px">
                 <div style="margin-left: 10px;">Fill Color: </div>
                 <Sketch v-model="color.Fill"  style="margin-left: 10px;"/>
-                <!-- <div>Selected Color: {{ color.Fill.hex }}</div> -->
             </div>
             <button type="submit" class="submit-btn">Register</button>
         </form>
         <div class="login-signup-route">
             <router-link to="/" class="links">Already a user? Login Please!</router-link>
-            <!-- <button @click="login">New User</button> -->
         </div>
     </div>
 </template>
@@ -105,10 +103,6 @@ export default {
             }
             console.log(User);
 
-            // const userObj = Array.from(User.entries()).reduce((acc, [key, value]) => ({
-            //     ...acc,
-            //     [key]: value
-            // }), {});
             const userJson = JSON.stringify(User);
             console.log(userJson);
 
@@ -130,7 +124,6 @@ export default {
     top: 2vh
 }
 .sketch{
-    /* width: 100%; */
     width: fit-content;
     margin: auto;
     margin-bottom: 5px;

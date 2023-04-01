@@ -14,14 +14,6 @@
                 <label>Language:</label>
                 <input type="text" id="language" v-model="form.language" >
             </div>
-            <!-- <div>
-                <Sketch v-model="color.Stroke" />
-                <div>Selected Color: {{ color.Stroke.hex }}</div>
-            </div>
-            <div>
-                <Sketch v-model="color.Fill" />
-                <div>Selected Color: {{ color.Fill.hex }}</div>
-            </div> -->
             <div class="sketch" >
                 <div>Stroke Color:</div>
                 <Sketch v-model="color.Stroke" style="margin-right: 10px;"/>
@@ -29,7 +21,6 @@
             <div class="sketch" style="gap:0px">
                 <div style="margin-left: 10px;">Fill Color: </div>
                 <Sketch v-model="color.Fill"  style="margin-left: 10px;"/>
-                <!-- <div>Selected Color: {{ color.Fill.hex }}</div> -->
             </div>
             <button type="submit" class="submit-btn update-btn">Update</button>
         </form>
