@@ -14,5 +14,3 @@ const BASE_URL = localStorage.setItem('base-url', baseURL);
 axios.defaults.baseURL = BASE_URL;
 
 app.use(router).mount('#app');
-
-// To update the base URL, emit the 'base-url-updated' eventwith the new base URL as the argument.
