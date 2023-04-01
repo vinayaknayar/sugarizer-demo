@@ -1,4 +1,9 @@
 <template>
+   <nav>
+    <!-- <router-link to="/">Login</router-link> | -->
+    <RouterLink to="/home">Home</RouterLink> |
+    <router-link to="/about">About</router-link>
+  </nav>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
@@ -7,6 +12,7 @@
     <button @click="getFavActivities()">Home View(Get Favorite)</button>
     <button @click="getAllActivities()">List View(All activities)</button>
     <button @click="deleteUser()">Delete Account</button>
+    <button @click="getSettings()">Settings</button>
     <div class="activities" v-if="homeView">
       <h1>Activities</h1>
       <div class="activity" v-for="activity in favActivities" :key="activity.id">
@@ -22,6 +28,9 @@
         <p>Activity is favorite: {{ activity.favorite }}</p>
       </div>
     </div>
+    <div class="settings" v-if="showSettings">
+      <Settings :id="id" :token="token" />
+    </div>
   </div>
 </template>
 
@@ -29,11 +38,12 @@
 // @ is an alias to /src
 
 import axios from 'axios';
+import Settings from '@/components/Settings.vue';
 
 export default {
   name: 'HomeView',
   components: {
-    // HelloWorld
+    Settings
   },
   data: function () {
     return {
@@ -41,6 +51,7 @@ export default {
       token: "",
       homeView: false,
       listView: false,
+      showSettings: false,
       favActivities: [],
       allActivities: [],
     };
@@ -90,6 +101,7 @@ export default {
       }
 
       this.homeView = false;
+      this.showSettings = false;
       this.listView = true;
       this.allActivities = response.data;
     },
@@ -114,6 +126,12 @@ export default {
       localStorage.setItem("id", null);
       localStorage.setItem("token", null);
     },
+
+    getSettings() {
+      this.showSettings = true;
+      this.homeView = false;
+      this.listView = false;
+    }
   }
 }
 </script>
