@@ -1,31 +1,32 @@
 <template>
-    <div class="login">
-        <h1>Login</h1>
+    <div class="login register">
+        <h1>Register</h1>
         <form @submit.prevent="submit">
             <div>
-                <label for="username">Server:</label>
-                <input type="text" name="server" v-model="baseUrl" @input="updateBaseUrl" />
+                <label for="username">Sugarizer Server:</label>
+                <input type="text" name="server" v-model="baseUrl" @input="updateBaseUrl" placeholder="http://localhost:8080" style="margin-right: 50px;" required/>
             </div>
             <div>
                 <label for="username">Username:</label>
-                <input type="text" name="username" v-model="form.name" />
+                <input type="text" name="username" v-model="form.name" placeholder="john doe" required/>
             </div>
             <div>
                 <label for="password">Password:</label>
-                <input type="password" name="password" v-model="form.password" />
+                <input type="password" name="password" v-model="form.password" placeholder="pass" required/>
             </div>
-            <div>
-                <Sketch v-model="color.Stroke" />
-                <div>Selected Color: {{ color.Stroke.hex }}</div>
+            <div class="sketch" >
+                <div>Stroke Color:</div>
+                <Sketch v-model="color.Stroke" style="margin-right: 10px;"/>
             </div>
-            <div>
-                <Sketch v-model="color.Fill" />
-                <div>Selected Color: {{ color.Fill.hex }}</div>
+            <div class="sketch" style="gap:0px">
+                <div style="margin-left: 10px;">Fill Color: </div>
+                <Sketch v-model="color.Fill"  style="margin-left: 10px;"/>
+                <!-- <div>Selected Color: {{ color.Fill.hex }}</div> -->
             </div>
-            <button type="submit">Register</button>
+            <button type="submit" class="submit-btn">Register</button>
         </form>
-        <div>
-            <router-link to="/">Login</router-link>
+        <div class="login-signup-route">
+            <router-link to="/" class="links">Already a user? Login Please!</router-link>
             <!-- <button @click="login">New User</button> -->
         </div>
     </div>
@@ -84,7 +85,7 @@ export default {
 
             const data = await JSON.stringify(response.data);
             console.log(data);
-            
+
             // Assuming the response data contains a token, save it to the local storage
             localStorage.setItem('token', data.token);
         },
@@ -114,7 +115,7 @@ export default {
             try {
                 await this.register(userJson);
                 this.showError = false;
-                this.$router.push("/home");
+                this.$router.push("/");
 
             } catch (e) {
                 console.log(`this.registeration failed: ${e}`);
@@ -124,3 +125,17 @@ export default {
     }
 }
 </script>
+<style>
+.register{
+    top: 2vh
+}
+.sketch{
+    /* width: 100%; */
+    width: fit-content;
+    margin: auto;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+</style>

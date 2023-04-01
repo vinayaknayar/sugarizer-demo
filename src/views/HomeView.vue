@@ -1,32 +1,47 @@
 <template>
-   <nav>
+  <nav>
     <!-- <router-link to="/">Login</router-link> | -->
     <RouterLink to="/home">Home</RouterLink> |
     <router-link to="/about">About</router-link>
   </nav>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <!-- <img alt="Vue logo" src="../assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
     <p> token: {{ token }}</p>
-    <p> id: {{ id }}</p>
-    <button @click="getFavActivities()">Home View(Get Favorite)</button>
-    <button @click="getAllActivities()">List View(All activities)</button>
-    <button @click="deleteUser()">Delete Account</button>
-    <button @click="getSettings()">Settings</button>
+    <p> id: {{ id }}</p> -->
+    <div class="get-elements">
+      <button class="get-buttons" @click="getFavActivities()">Home View(Favorite Activities)</button>
+      <button class="get-buttons" @click="getAllActivities()">List View(All activities)</button>
+      <button class="get-buttons settings-btn" @click="getSettings()">Settings</button>
+      <button class="get-buttons logout-btn" @click="logOut()">Log Out</button>
+      <button class="get-buttons delete-btn" @click="deleteUser()">Delete Account</button>
+    </div>
     <div class="activities" v-if="homeView">
-      <h1>Activities</h1>
-      <div class="activity" v-for="activity in favActivities" :key="activity.id">
-        <h2>Name of activity: {{ activity.name }}</h2>
-        <p>Activity icon path: {{ activity.icon }}</p>
-      </div>
+      <table style="width:30%">
+        <tr>
+          <th>Name of the Activity</th>
+          <th>Activity Icon Path</th>
+        </tr>
+        <tr v-for="activity in favActivities" :key="activity.id">
+          <td>{{ activity.name }}</td>
+          <td>{{ activity.icon }}</td>
+
+        </tr>
+      </table>
     </div>
     <div class="activities" v-if="listView">
-      <h1>Activities</h1>
-      <div class="activity" v-for="activity in allActivities" :key="activity.id">
-        <h2>Name of activity: {{ activity.name }}</h2>
-        <p>Activity icon path: {{ activity.icon }}</p>
-        <p>Activity is favorite: {{ activity.favorite }}</p>
-      </div>
+      <table style="width:30%">
+        <tr>
+          <th>Name of the Activity</th>
+          <th>Activity Icon Path</th>
+          <th>Favorite</th>
+        </tr>
+        <tr v-for="activity in allActivities" :key="activity.id">
+          <td>{{ activity.name }}</td>
+          <td>{{ activity.icon }}</td>
+          <td>{{ activity.favorite }}</td>
+        </tr>
+      </table>
     </div>
     <div class="settings" v-if="showSettings">
       <Settings :id="id" :token="token" />
@@ -61,12 +76,22 @@ export default {
   //     return this.$route.params.user;
   //   }
   // }
-  mounted() {
+  async mounted() {
     const userToken = JSON.parse(localStorage.getItem("token"));
     const userID = JSON.parse(localStorage.getItem("id"));
     this.token = userToken;
     this.id = userID;
     console.log(`this is token: ${this.token}`);
+    try {
+      await this.getFavActivities();
+      this.homeView = true;
+      this.showError = false;
+    } catch (err) {
+      this.showError = true;
+      this.errorMessage = err.message;
+      alert(err.message+". Please log in again!");
+      this.$router.push("/");
+    }
 
   },
   methods: {
@@ -123,15 +148,85 @@ export default {
       this.listView = false;
       this.allActivities = response.data;
       this.$router.push('/');
-      localStorage.setItem("id", null);
-      localStorage.setItem("token", null);
+      localStorage.clear();
     },
 
     getSettings() {
       this.showSettings = true;
       this.homeView = false;
       this.listView = false;
+    },
+
+    logOut() {
+      this.showSettings = false;
+      this.homeView = false;
+      this.listView = false;
+      this.$router.push('/');
+      localStorage.clear();
     }
   }
 }
 </script>
+<style>
+.home {
+  text-align: center;
+  color: #2c3e50;
+}
+
+.get-elements {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.get-buttons {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.settings-btn {
+  background-color: #ffaa00d9;
+  /* color: black; */
+}
+
+.logout-btn {
+  background-color: #ff66d9;
+}
+
+.delete-btn {
+  background-color: #ac3333;
+}
+
+.get-buttons:hover {
+  background-color: #415041;
+}
+
+table,
+th,
+td {
+  border: 1px solid #e2eafc;
+}
+
+th {
+  background-color: #9ca9fc;
+}
+
+td {
+  background-color: #c4d3f8;
+}
+
+.activities {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px;
+}
+</style>
