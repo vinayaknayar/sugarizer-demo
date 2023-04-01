@@ -45,7 +45,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 
 import axios from 'axios';
 import Settings from '@/components/Settings.vue';

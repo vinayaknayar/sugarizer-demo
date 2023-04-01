@@ -64,7 +64,6 @@ export default {
     },
     methods: {
         async update(details) {
-            // const detailsJson = JSON.parse({ user: details });
             await axios.put(`/api/v1/users/${this.id}`, {user: details}, {
                 headers: {
                     'x-key': this.id,
@@ -90,9 +89,7 @@ export default {
             try {
                 await this.update(userDetails);
                 this.showError = false;
-                this.$router.push("/home");
                 alert("Details Updated Successfully!");
-
             } catch (e) {
                 console.log(`this.registeration failed: ${e}`);
                 this.showError = true;

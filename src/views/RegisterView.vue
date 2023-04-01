@@ -4,23 +4,24 @@
         <form @submit.prevent="submit">
             <div>
                 <label for="username">Sugarizer Server:</label>
-                <input type="text" name="server" v-model="baseUrl" @input="updateBaseUrl" placeholder="http://localhost:8080" style="margin-right: 50px;" required/>
+                <input type="text" name="server" v-model="baseUrl" @input="updateBaseUrl"
+                    placeholder="http://localhost:8080" style="margin-right: 50px;" required />
             </div>
             <div>
                 <label for="username">Username:</label>
-                <input type="text" name="username" v-model="form.name" placeholder="john doe" required/>
+                <input type="text" name="username" v-model="form.name" placeholder="john doe" required />
             </div>
             <div>
                 <label for="password">Password:</label>
-                <input type="password" name="password" v-model="form.password" placeholder="pass" required/>
+                <input type="password" name="password" v-model="form.password" placeholder="pass" required />
             </div>
-            <div class="sketch" >
+            <div class="sketch">
                 <div>Stroke Color:</div>
-                <Sketch v-model="color.Stroke" style="margin-right: 10px;"/>
+                <Sketch v-model="color.Stroke" style="margin-right: 10px;" />
             </div>
             <div class="sketch" style="gap:0px">
                 <div style="margin-left: 10px;">Fill Color: </div>
-                <Sketch v-model="color.Fill"  style="margin-left: 10px;"/>
+                <Sketch v-model="color.Fill" style="margin-left: 10px;" />
             </div>
             <button type="submit" class="submit-btn">Register</button>
         </form>
@@ -66,11 +67,18 @@ export default {
     },
 
     methods: {
+        async updateBaseUrl() {
+            await localStorage.setItem('base-url', this.baseUrl);
+            axios.defaults.baseURL = this.baseUrl;
+        },
+
         async register(User) {
+            const BaseUrl = localStorage.getItem('base-url');
+
             console.log(`The data we're passing is: ${User}`)
             const userJson = JSON.stringify({ user: User });
             console.log(`this is userJson: ${userJson}`);
-            const response = await axios.post('/auth/signup', userJson, {
+            const response = await axios.post(`${BaseUrl}/auth/signup`, userJson, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -120,10 +128,11 @@ export default {
 }
 </script>
 <style>
-.register{
+.register {
     top: 2vh
 }
-.sketch{
+
+.sketch {
     width: fit-content;
     margin: auto;
     margin-bottom: 5px;

@@ -36,15 +36,17 @@ export default {
       }
     }
   },
+
   methods: {
     async updateBaseUrl() {
-      await this.$emit('base-url-updated', this.baseUrl);
+      await localStorage.setItem('base-url', this.baseUrl);
+      axios.defaults.baseURL = this.baseUrl;
     },
 
     async LogIn(User) {
-
+      const BaseUrl = localStorage.getItem('base-url');
       console.log(`The data we're passing is: ${User}`)
-      const response = await axios.post('/auth/login', { user: User }, {  // format for request is {user: User JSON object}
+      const response = await axios.post(`${BaseUrl}/auth/login`, { user: User }, {  // format for request is {user: User JSON object}
         headers: {
           'Content-Type': 'application/json'
         }
@@ -99,15 +101,12 @@ input{
 }
 label{
   margin: 5px;
-  /* display: block; */
   text-align: center;
 }
 .login{
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   justify-content: center;
-  /* height: 100vh; */
   margin: auto;
   width: 30%;
   position: relative;
@@ -142,7 +141,4 @@ h1{
   color: #0466c8;
   cursor: pointer;
 }
-/* .links:visited{
-  color: #abc4ff;
-} */
 </style>
